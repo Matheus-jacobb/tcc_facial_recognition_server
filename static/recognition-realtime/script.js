@@ -51,8 +51,6 @@ function initializeCanvasEmotion(width, height) {
 function handleSuccess(stream) {
     const video = document.querySelector('video');
     const videoTracks = stream.getVideoTracks();
-    console.log('Got stream with constraints:', constraints);
-    console.log(`Using video device: ${videoTracks[0].label}`);
     window.stream = stream; // make variable available to browser console
     video.srcObject = stream;
 }
@@ -158,30 +156,6 @@ function initCamera() {
     initProgressBar();
 }
 
-const fileInput = document.getElementById('fileInput');
-
-// Define um evento para ser acionado quando o arquivo é selecionado
-fileInput.addEventListener('change', function() {
-    const selectedFile = fileInput.files[0]; // Obtém o arquivo selecionado
-
-    if (selectedFile) {
-        getImageBase64FromFile(selectedFile, (imageBase64) => {
-            const imageBase64WithoutMimetype = imageBase64.split(',')[1];
-            getEmotions(imageBase64WithoutMimetype);
-
-            image.style.display = 'block';
-            image.src = imageBase64;
-
-            image.onload = function() {
-                const w = image.width;
-                const h = image.height;
-
-                initializeCanvasEmotion(w, h);
-            };
-        })
-    }
-});
-
 const video = document.getElementById("gum-local");
 
 video.addEventListener('loadedmetadata', () => {
@@ -191,7 +165,6 @@ video.addEventListener('loadedmetadata', () => {
 })
 
 
-const image = document.getElementById("image-emotion");
 const label = document.getElementById('emotion');
 initCamera();
 
